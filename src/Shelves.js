@@ -4,14 +4,6 @@ import * as BooksAPI from './BooksAPI'
 import { Link } from 'react-router-dom'
 
 export default class Shelves extends Component {
-  state = {
-    books: []
-  }
-
-  componentDidMount() {
-    BooksAPI.getAll().then(books =>  this.setState({ books }))
-  }
-
   render() {
     return(
       <div className="list-books">
@@ -25,8 +17,8 @@ export default class Shelves extends Component {
               <div className="bookshelf-books">
                 <ol className="books-grid">
                   {
-                    this.state.books.filter(book => book.shelf === "currentlyReading").map(book => (
-                      <Book book={book}/>
+                    this.props.books.filter(book => book.shelf === "currentlyReading").map(book => (
+                      <Book key={book.id} book={book}/>
                     ))
                   }
                 </ol>
@@ -37,8 +29,8 @@ export default class Shelves extends Component {
               <div className="bookshelf-books">
                 <ol className="books-grid">
                   {
-                    this.state.books.filter(book => book.shelf === "wantToRead").map(book => (
-                      <Book book={book}/>
+                    this.props.books.filter(book => book.shelf === "wantToRead").map(book => (
+                      <Book key={book.id} book={book}/>
                     ))
                   }
                 </ol>
@@ -49,8 +41,8 @@ export default class Shelves extends Component {
               <div className="bookshelf-books">
                 <ol className="books-grid">
                   {
-                    this.state.books.filter(book => book.shelf === "read").map(book => (
-                      <Book book={book}/>
+                    this.props.books.filter(book => book.shelf === "read").map(book => (
+                      <Book key={book.id} book={book}/>
                     ))
                   }
                 </ol>

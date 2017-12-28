@@ -7,11 +7,22 @@ import { Route } from 'react-router-dom'
 import './App.css'
 
 class BooksApp extends React.Component {
+  state = {
+    books: []
+  }
+
+  componentDidMount() {
+    this.getBooks()
+  }
+
   render() {
     return (
       <div className="app">
         <Route path="/search" component={SearchPage}/>
-        <Route exact path="/" component={Shelves} />
+        <Route exact path="/" render={() => (
+            <Shelves books={this.state.books}/>
+          )} 
+        />
       </div>
     )
   }
