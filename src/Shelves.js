@@ -3,7 +3,43 @@ import Book from "./Book"
 import * as BooksAPI from './BooksAPI'
 import { Link } from 'react-router-dom'
 
+class Shelf extends Component {
+  render() {
+    return (
+      <div className="bookshelf">
+        <h2 className="bookshelf-title">{this.props.title}</h2>
+        <div className="bookshelf-books">
+          <ol className="books-grid">
+            {
+              this.props.books.filter(book => book.shelf === this.props.type).map(book => (
+                <Book getBooks={() => this.props.getBooks()} key={book.id} book={book}/>
+              ))
+            }
+          </ol>
+        </div>
+      </div>
+    )
+  }
+}
+
 export default class Shelves extends Component {
+  state = {
+    shelves: [
+      {
+        title: "Currently Reading",
+        type: "currentlyReading"
+      },
+      {
+        title: "Want to Read",
+        type: "wantToRead"
+      },
+      {
+        title: "Reading",
+        type: "read"
+      },
+    ]
+  }
+
   render() {
     return(
       <div className="list-books">
@@ -12,42 +48,16 @@ export default class Shelves extends Component {
         </div>
         <div className="list-books-content">
           <div>
-            <div className="bookshelf">
-              <h2 className="bookshelf-title">Currently Reading</h2>
-              <div className="bookshelf-books">
-                <ol className="books-grid">
-                  {
-                    this.props.books.filter(book => book.shelf === "currentlyReading").map(book => (
-                      <Book key={book.id} book={book}/>
-                    ))
-                  }
-                </ol>
-              </div>
-            </div>
-            <div className="bookshelf">
-              <h2 className="bookshelf-title">Want To Read</h2>
-              <div className="bookshelf-books">
-                <ol className="books-grid">
-                  {
-                    this.props.books.filter(book => book.shelf === "wantToRead").map(book => (
-                      <Book key={book.id} book={book}/>
-                    ))
-                  }
-                </ol>
-              </div>
-            </div>
-            <div className="bookshelf">
-              <h2 className="bookshelf-title">Read</h2>
-              <div className="bookshelf-books">
-                <ol className="books-grid">
-                  {
-                    this.props.books.filter(book => book.shelf === "read").map(book => (
-                      <Book key={book.id} book={book}/>
-                    ))
-                  }
-                </ol>
-              </div>
-            </div>
+            {this.state.shelves.map(shelf => (
+              <Shelf
+                key={shelf.type}
+                title={shelf.title}
+                type={shelf.type}
+                books={this.props.books}
+                getBooks={() => this.props.getBooks()}
+              />
+            ))}
+
           </div>
         </div>
         <div className="open-search">

@@ -15,13 +15,20 @@ class BooksApp extends React.Component {
     this.getBooks()
   }
 
+  getBooks() {
+    BooksAPI.getAll().then(books => this.setState({ books }))
+  }
+
   render() {
     return (
       <div className="app">
-        <Route path="/search" component={SearchPage}/>
+        <Route path="/search" render={() => (
+            <SearchPage getBooks={() => this.getBooks()}/>
+          )}
+        />
         <Route exact path="/" render={() => (
-            <Shelves books={this.state.books}/>
-          )} 
+            <Shelves getBooks={() => this.getBooks()} books={this.state.books}/>
+          )}
         />
       </div>
     )

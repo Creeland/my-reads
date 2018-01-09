@@ -6,11 +6,11 @@ import Book from './Book'
 export default class SearchPage extends Component {
   state = {
     query: '',
-    books: []
+    results: []
   }
 
   updateQuery(query) {
-      BooksAPI.search(query.trim()).then(books => this.setState({ books })) 
+      BooksAPI.search(query.trim()).then(books => this.setState({ results: books }))
   }
 
   render() {
@@ -33,11 +33,11 @@ export default class SearchPage extends Component {
         <div>
           <div className="search-books-results">
             <ol className="books-grid">
-              { 
-                this.state.books &&
-                  this.state.books.map(book => (
-                    <Book key={book.id} book={book}/>
-                  )) 
+              {
+                this.state.results &&
+                  this.state.results.map(book => (
+                    <Book getBooks={() => this.props.getBooks()} key={book.id} book={book}/>
+                  ))
               }
             </ol>
           </div>
